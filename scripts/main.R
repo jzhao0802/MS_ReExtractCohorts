@@ -8,6 +8,8 @@ inputDir <- "C:/Work/Projects/MultipleSclerosis/Results/2016-07-04/Cohorts/1/"
 main.cohortNames <- c("Cmp", "BConti", "B2B", "B2Fir", "B2Sec")
 
 na.representations<- c('', 'NA', 'unknown', 'ambiguous')
+main.outcomes <- c("relapse_fu_any_01", "edssprog", "edssconf3",
+                   "relapse_or_prog", "relapse_and_prog", "relapse_or_conf")
 
 varNames2Search_TransformedVars <- 
   c(
@@ -94,6 +96,9 @@ for (cohortName in main.cohortNames)
           select(-switch_rx_dayssup)
       }
     } %>%
+    mutate(dayssup_le360=as.numeric(dayssup<=360)) %>%
+    mutate(dayssup_gt360=as.numeric(dayssup>360)) %>%
+    select(-dayssup) %>%
     # years_diag_idx
     {
       .$years_diag_idx[is.na(.$years_diag_idx)] <- 1e9
@@ -175,11 +180,16 @@ for (cohortName in main.cohortNames)
       result$last_spinal_num__gt2 <- result[, "last_spinal_num__>2"]
       result
     } %>%
-    select(-matches("last_spinal_num__0|last_spinal_num__1|last_spinal_num__2|last_spinal_num__>"))
+    select(-matches("last_spinal_num__0|last_spinal_num__1|last_spinal_num__2|last_spinal_num__>")) %>%
+    select(-new_pat_id)
   
+  processed <- processed[,  order(colnames(processed))]
+  orderedVars <- colnames(processed)
+  processed <- processed[, c(main.outcomes, orderedVars[!orderedVars%in%main.outcomes])]
   
-  write.table(processed[,  order(colnames(processed))], 
+  write.table(processed, 
               paste0(resultDir, cohortName, ".csv"), 
               row.names=F, 
-              sep=",")
+              sep=",", 
+              na="")
 }
