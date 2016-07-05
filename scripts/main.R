@@ -11,6 +11,15 @@ na.representations<- c('', 'NA', 'unknown', 'ambiguous')
 main.outcomes <- c("relapse_fu_any_01", "edssprog", "edssconf3",
                    "relapse_or_prog", "relapse_and_prog", "relapse_or_conf")
 
+binCateVars <- c(
+  "avl_idx_alem", "avl_idx_fing", "avl_idx_tecf", "avl_idx_teri", 
+  "pre1_edssconf3", "pre1_edssprog", "pre2_edssconf3", "pre2_edssprog", 
+  "pre3_edssconf3", "pre3_edssprog", "relapse_pre_90_01", 
+  "relapse_pre_91to180_01", "relapse_pre_181to360_01",
+  "relapse_pre_1to2_01", "relapse_pre_2to3_01", 
+  "relapse_pre_3to4_01"
+)
+
 varNames2Search_TransformedVars <- 
   c(
     "new_pat_id", "relapse_fu_any_01", "edssprog", "edssconf3", "relapse_or_prog", 
@@ -181,6 +190,25 @@ for (cohortName in main.cohortNames)
       result
     } %>%
     select(-matches("last_spinal_num__0|last_spinal_num__1|last_spinal_num__2|last_spinal_num__>")) %>%
+    # bin cate vars
+    {
+      .[is.na(.)] <- "missing"
+      .
+    } %>%
+    {
+      result <- .
+      for (variable in binCateVars)
+      {
+        lvls <- unique(.[, variable])
+        
+        for (level in lvls)
+        {
+          result[, paste0(variable, "__", as.character(level))] <-
+            as.numeric(result[, variable] == level)
+        }
+      }
+      result <- result[, !(colnames(result) %in% binCateVars)]
+    } %>%
     select(-new_pat_id)
   
   processed <- processed[,  order(colnames(processed))]
