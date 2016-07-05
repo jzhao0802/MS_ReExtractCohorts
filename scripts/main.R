@@ -84,9 +84,9 @@ for (cohortName in main.cohortNames)
         for (i in 1:length(vec))
         {
           if (is.na(dataLastStep$switch_rx_dayssup[i]))
-            vec <- dataLastStep$precont_dayssup[i]
+            vec[i] <- dataLastStep$precont_dayssup[i]
           else
-            vec <- dataLastStep$switch_rx_dayssup[i]
+            vec[i] <- dataLastStep$switch_rx_dayssup[i]
         }
         dataLastStep$dayssup <- vec
         dataLastStep %>%
