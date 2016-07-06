@@ -124,7 +124,7 @@ for (cohortName in main.cohortNames)
     select(age__31to40=matches("age__31_40"), everything()) %>%
     select(age__41to50=matches("age__41_50"), everything()) %>%
     # region name
-    select(birth_region__others=matches("Africa"), everything()) %>%
+    select(birth_region__others=matches("other"), everything()) %>%
     # baseline_edss
     mutate(baseline_edss_score__0_1=as.numeric(baseline_edss_score<=1)) %>%
     mutate(baseline_edss_score__1d5_2=as.numeric((baseline_edss_score<=2)&(baseline_edss_score>1))) %>%
