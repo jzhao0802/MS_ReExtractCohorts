@@ -3,7 +3,7 @@ library(plyr)
 
 rm(list=ls())
 
-inputDir <- "C:/Work/Projects/MultipleSclerosis/Results/2016-07-05/10am/cohortDt_jie_July06/"
+inputDir <- "F:/Lichao/work/Projects/MultipleSclerosis/Results/2016-07-05/cohortDt_jie_July06/"
 
 main.cohortNames <- c("Cmp", "BConti", "B2B", "B2Fir", "B2Sec")
 
@@ -137,7 +137,7 @@ for (cohortName in main.cohortNames)
     } %>%
     mutate(pre1_edss_score__0_1=as.numeric(pre1_edss_score<=1)) %>%
     mutate(pre1_edss_score__1d5_2=as.numeric((pre1_edss_score<=2)&(pre1_edss_score>1))) %>%
-    mutate(pre1_edss_score__ge2d5=as.numeric(pre1_edss_score>=2.5)) %>%
+    mutate(pre1_edss_score__ge2d5=as.numeric((pre1_edss_score>=2.5) & (pre1_edss_score != 1e9))) %>%
     mutate(pre1_edss_score__missing=as.numeric(pre1_edss_score==1e9)) %>%
     select(-pre1_edss_score) %>%
     # "pre2_edss_score", 
@@ -147,7 +147,7 @@ for (cohortName in main.cohortNames)
     } %>%
     mutate(pre2_edss_score__0_1=as.numeric(pre2_edss_score<=1)) %>%
     mutate(pre2_edss_score__1d5_2=as.numeric((pre2_edss_score<=2)&(pre2_edss_score>1))) %>%
-    mutate(pre2_edss_score__ge2d5=as.numeric(pre2_edss_score>=2.5)) %>%
+    mutate(pre2_edss_score__ge2d5=as.numeric((pre2_edss_score>=2.5) & (pre2_edss_score!=1e9))) %>%
     mutate(pre2_edss_score__missing=as.numeric(pre2_edss_score==1e9)) %>%
     select(-pre2_edss_score) %>%
     # "pre3_edss_score", 
@@ -157,7 +157,7 @@ for (cohortName in main.cohortNames)
     } %>%
     mutate(pre3_edss_score__0_1=as.numeric(pre3_edss_score<=1)) %>%
     mutate(pre3_edss_score__1d5_2=as.numeric((pre3_edss_score<=2)&(pre3_edss_score>1))) %>%
-    mutate(pre3_edss_score__ge2d5=as.numeric(pre3_edss_score>=2.5)) %>%
+    mutate(pre3_edss_score__ge2d5=as.numeric((pre3_edss_score>=2.5)&(pre3_edss_score!=1e9))) %>%
     mutate(pre3_edss_score__missing=as.numeric(pre3_edss_score==1e9)) %>%
     select(-pre3_edss_score) %>%
     # last_cranial_num
