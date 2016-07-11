@@ -3,7 +3,7 @@ library(plyr)
 
 rm(list=ls())
 
-inputDir <- "C:/Work/Projects/MultipleSclerosis/Results/2016-07-04/Cohorts/1/"
+inputDir <- "C:/Work/Projects/MultipleSclerosis/Results/2016-07-05/10am/cohortDt_jie_July06/"
 
 main.cohortNames <- c("Cmp", "BConti", "B2B", "B2Fir", "B2Sec")
 
@@ -29,7 +29,7 @@ varNames2Search_TransformedVars <-
     "pre1_edssconf3", "pre2_edssconf3", "pre3_edssconf3", 
     "relapse_pre_90_01", "relapse_pre_91to180_01", 
     "relapse_pre_181to360_01", "relapse_pre_1to2_01", "relapse_pre_2to3_01", 
-    "relapse_pre_3to4_01"
+    "relapse_pre_3to4_01", "record_num"
   )
 
 timeStamp <- as.character(Sys.time())
