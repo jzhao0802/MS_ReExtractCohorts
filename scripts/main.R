@@ -109,14 +109,19 @@ for (cohortName in main.cohortNames)
     mutate(dayssup_gt360=as.numeric(dayssup>360)) %>%
     select(-dayssup) %>%
     # years_diag_idx
-    {
-      .$years_diag_idx[is.na(.$years_diag_idx)] <- 1e9
-      .
-    } %>%
-    mutate(years_diag_idx__le2=as.numeric(years_diag_idx<=2)) %>%
-    mutate(years_diag_idx__gt2_le5=as.numeric((years_diag_idx>2)&(years_diag_idx<=5))) %>%
-    mutate(years_diag_idx__gt5=as.numeric((years_diag_idx>5)&(years_diag_idx!=1e9))) %>%
-    mutate(years_diag_idx__missing=as.numeric(years_diag_idx==1e9)) %>%
+    mutate(
+      years_diag_idx__le2=
+        ifelse(is.na(years_diag_idx), 0, as.numeric(years_diag_idx<=2))
+      ) %>%
+    mutate(
+      years_diag_idx__gt2_le5=
+        ifelse(is.na(years_diag_idx), 0, as.numeric((years_diag_idx>2)&(years_diag_idx<=5)))
+      ) %>%
+    mutate(
+      years_diag_idx__gt5=
+        ifelse(is.na(years_diag_idx), 0, as.numeric(years_diag_idx>5))
+      ) %>%
+    mutate(years_diag_idx__missing=ifelse(is.na(years_diag_idx), 1, 0)) %>%
     select(-years_diag_idx) %>%
     # change some age category names
     select(age__le30=matches("^age.*30$"), everything()) %>%
@@ -131,34 +136,58 @@ for (cohortName in main.cohortNames)
     mutate(baseline_edss_score__ge2d5=as.numeric(baseline_edss_score>=2.5)) %>%
     select(-baseline_edss_score) %>%
     # "pre1_edss_score", 
-    {
-      .$pre1_edss_score[is.na(.$pre1_edss_score)] <- 1e9
-      .
-    } %>%
-    mutate(pre1_edss_score__0_1=as.numeric(pre1_edss_score<=1)) %>%
-    mutate(pre1_edss_score__1d5_2=as.numeric((pre1_edss_score<=2)&(pre1_edss_score>1))) %>%
-    mutate(pre1_edss_score__ge2d5=as.numeric((pre1_edss_score>=2.5) & (pre1_edss_score != 1e9))) %>%
-    mutate(pre1_edss_score__missing=as.numeric(pre1_edss_score==1e9)) %>%
+    mutate(
+      pre1_edss_score__0_1=
+        ifelse(is.na(pre1_edss_score), 0, as.numeric(pre1_edss_score<=1))
+      ) %>%
+    mutate(
+      pre1_edss_score__1d5_2=
+        ifelse(is.na(pre1_edss_score), 0, as.numeric((pre1_edss_score<=2)&(pre1_edss_score>1)))
+      ) %>%
+    mutate(
+      pre1_edss_score__ge2d5=
+        ifelse(is.na(pre1_edss_score), 0, as.numeric(pre1_edss_score>=2.5))
+      ) %>%
+    mutate(
+      pre1_edss_score__missing=
+        ifelse(is.na(pre1_edss_score), 1, 0)
+      ) %>%
     select(-pre1_edss_score) %>%
     # "pre2_edss_score", 
-    {
-      .$pre2_edss_score[is.na(.$pre2_edss_score)] <- 1e9
-      .
-    } %>%
-    mutate(pre2_edss_score__0_1=as.numeric(pre2_edss_score<=1)) %>%
-    mutate(pre2_edss_score__1d5_2=as.numeric((pre2_edss_score<=2)&(pre2_edss_score>1))) %>%
-    mutate(pre2_edss_score__ge2d5=as.numeric((pre2_edss_score>=2.5) & (pre2_edss_score!=1e9))) %>%
-    mutate(pre2_edss_score__missing=as.numeric(pre2_edss_score==1e9)) %>%
+    mutate(
+      pre2_edss_score__0_1=
+        ifelse(is.na(pre2_edss_score), 0, as.numeric(pre2_edss_score<=1))
+      ) %>%
+    mutate(
+      pre2_edss_score__1d5_2=
+        ifelse(is.na(pre2_edss_score), 0, as.numeric((pre2_edss_score<=2)&(pre2_edss_score>1)))
+      ) %>%
+    mutate(
+      pre2_edss_score__ge2d5=
+        ifelse(is.na(pre2_edss_score), 0, as.numeric(pre2_edss_score>=2.5))
+      ) %>%
+    mutate(
+      pre2_edss_score__missing=
+        ifelse(is.na(pre2_edss_score), 1, 0)
+      ) %>%
     select(-pre2_edss_score) %>%
     # "pre3_edss_score", 
-    {
-      .$pre3_edss_score[is.na(.$pre3_edss_score)] <- 1e9
-      .
-    } %>%
-    mutate(pre3_edss_score__0_1=as.numeric(pre3_edss_score<=1)) %>%
-    mutate(pre3_edss_score__1d5_2=as.numeric((pre3_edss_score<=2)&(pre3_edss_score>1))) %>%
-    mutate(pre3_edss_score__ge2d5=as.numeric((pre3_edss_score>=2.5)&(pre3_edss_score!=1e9))) %>%
-    mutate(pre3_edss_score__missing=as.numeric(pre3_edss_score==1e9)) %>%
+    mutate(
+      pre3_edss_score__0_1=
+        ifelse(is.na(pre3_edss_score), 0, as.numeric(pre3_edss_score<=1))
+      ) %>%
+    mutate(
+      pre3_edss_score__1d5_2=
+        ifelse(is.na(pre3_edss_score), 0, as.numeric((pre3_edss_score<=2)&(pre3_edss_score>1)))
+      ) %>%
+    mutate(
+      pre3_edss_score__ge2d5=
+        ifelse(is.na(pre3_edss_score), 0, as.numeric(pre3_edss_score>=2.5))
+      ) %>%
+    mutate(
+      pre3_edss_score__missing=
+        ifelse(is.na(pre3_edss_score), 1, 0)
+      ) %>%
     select(-pre3_edss_score) %>%
     # last_cranial_num
     {
