@@ -153,6 +153,16 @@ for (cohortName in main.cohortNames)
         ifelse(is.na(pre1_edss_score), 1, 0)
       ) %>%
     select(-pre1_edss_score) %>%
+    
+    {
+      # QC
+      var2QC <- grep("^pre1_edss_score__", names(.), value = T)
+      lineSum <- apply(.[, var2QC], 1, sum)
+      if(any(lineSum!=1)){
+        stop('pre1_edss_score wrong bucketing!\n\n')
+      }
+      .
+    } %>%
     # "pre2_edss_score", 
     mutate(
       pre2_edss_score__0=
@@ -171,6 +181,15 @@ for (cohortName in main.cohortNames)
         ifelse(is.na(pre2_edss_score), 1, 0)
     ) %>%
     select(-pre2_edss_score) %>%
+    {
+      # QC
+      var2QC <- grep("^pre2_edss_score__", names(.), value = T)
+      lineSum <- apply(.[, var2QC], 1, sum)
+      if(any(lineSum!=1)){
+        stop('pre2_edss_score wrong bucketing!\n\n')
+      }
+      .
+    } %>%
     # "pre3_edss_score", 
     mutate(
       pre3_edss_score__0=
@@ -189,6 +208,15 @@ for (cohortName in main.cohortNames)
         ifelse(is.na(pre3_edss_score), 1, 0)
     ) %>%
     select(-pre3_edss_score) %>%
+    {
+      # QC
+      var2QC <- grep("^pre3_edss_score__", names(.), value = T)
+      lineSum <- apply(.[, var2QC], 1, sum)
+      if(any(lineSum!=1)){
+        stop('pre3_edss_score wrong bucketing!\n\n')
+      }
+      .
+    } %>%
     # last_cranial_num
     {
       result <- .
